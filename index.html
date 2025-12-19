@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry, Sofia</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        /* === CUSTOMIZE COLORS HERE === */
+        :root {
+            --primary-pink: #ffc4d6;
+            --soft-pink: #ffe5ec;
+            --cream: #fff8f0;
+            --beige: #f5e6d3;
+            --accent: #ffb3c6;
+            --text-dark: #4a4a4a;
+            --text-light: #6b6b6b;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--soft-pink) 0%, var(--cream) 50%, var(--beige) 100%);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(255, 196, 214, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 229, 236, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary-pink);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 196, 214, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(255, 196, 214, 0.6);
+            background: var(--accent);
+        }
+
+        /* === SECTION STYLING === */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        section:nth-child(even) {
+            background: var(--soft-pink);
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+        }
+
+        /* === WHAT I DID WRONG === */
+        .mistake-section {
+            background: var(--white);
+        }
+
+        .mistake-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mistake-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .mistake-list {
+            list-style: none;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .mistake-list li {
+            background: var(--soft-pink);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .mistake-list li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .mistake-list li::before {
+            content: '✗';
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-right: 1rem;
+        }
+
+        /* === WHAT I'VE LEARNED === */
+        .learned-section {
+            background: var(--cream);
+        }
+
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .lesson-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .lesson-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-card p {
+            font-size: 1rem;
+            color: var(--text-dark);
+            font-weight: 400;
+        }
+
+        /* === PROMISES === */
+        .promises-section {
+            background: var(--white);
+        }
+
+        .promises-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .promises-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .promises-list li {
+            background: linear-gradient(135deg, var(--soft-pink) 0%, var(--beige) 100%);
+            padding: 1.5rem 1.5rem 1.5rem 4rem;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .promises-list li:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .promises-list li::before {
+            content: '♥';
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        /* === MEMORIES === */
+        .memories-section {
+            background: var(--beige);
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .memory-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 1;
+            background: var(--white);
+        }
+
+        .memory-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-pink), var(--accent));
+            color: var(--white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: transform 0.4s ease;
+        }
+
+        .memory-card:hover .memory-placeholder {
+            transform: scale(1.1);
+        }
+
+        .memory-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-dark);
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .memory-card:hover .memory-caption {
+            transform: translateY(0);
+        }
+
+        /* === NOTE SECTION === */
+        .note-section {
+            background: var(--cream);
+            padding: 6rem 2rem;
+        }
+
+        .note-content {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            line-height: 2;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .note-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .note-signature {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: var(--accent);
+        }
+
+        /* === FINAL CTA === */
+        .final-section {
+            background: linear-gradient(135deg, var(--soft-pink), var(--beige));
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .final-section h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 2rem;
+        }
+
+        .final-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--white);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .final-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* === MODAL === */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 10% auto;
+            padding: 3rem;
+            border-radius: 30px;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            animation: slideIn 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+                position: absolute;
+                right: 2rem;
+                top: 1.2rem;
+            }
+
+            section {
+                padding: 3rem 1.5rem;
+            }
+
+            .note-content {
+                padding: 2rem;
+                font-size: 1.1rem;
+            }
+
+            .modal-content {
+                margin: 30% auto;
+                padding: 2rem;
+            }
+
+            .lesson-grid,
+            .memory-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul id="navMenu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#what-i-did">What I Did</a></li>
+            <li><a href="#learned">What I've Learned</a></li>
+            <li><a href="#promises">Promises</a></li>
+            <li><a href="#memories">Memories</a></li>
+            <li><a href="#note">Note</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <!-- Edit names below -->
+            <h1>I'm Sorry, Sofia</h1>
+            <p>I didn't listen when you needed me most, and I regret it deeply.</p>
+            <a href="#what-i-did" class="cta-button">Read My Apology</a>
+        </div>
+    </section>
+
+    <!-- What I Did Wrong Section -->
+    <section id="what-i-did" class="mistake-section">
+        <h2>What I Did Wrong</h2>
+        <div class="mistake-content">
+            <!-- Edit apology text below -->
+            <p>I failed you when you needed me to truly hear you. Instead of giving you my full attention and presence, I let distractions take priority. I dismissed feelings that deserved validation, and I interrupted when I should have been listening with my whole heart.</p>
+
+            <!-- Edit specific mistakes below -->
+            <ul class="mistake-list">
+                <li>I talked over you instead of hearing you out completely</li>
+                <li>I minimized your feelings instead of validating them</li>
+                <li>I was distracted by my phone when you were sharing something important</li>
+                <li>I tried to "fix" things immediately instead of just being present with you</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- What I've Learned Section -->
+    <section id="learned" class="learned-section">
+        <h2>What I've Learned From This</h2>
+        <div class="lesson-grid">
+            <!-- Edit lessons below - you can add/remove cards -->
+            <div class="lesson-card">
+                <div class="lesson-icon">👂</div>
+                <p>Listening means caring, not just being silent</p>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-icon">💭</div>
+                <p>Your feelings matter even when I don't fully understand them at first</p>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-icon">⏰</div>
+                <p>Being present is about giving you my full attention, not just my time</p>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-icon">💪</div>
+                <p>Real strength is in vulnerability and admitting when I'm wrong</p>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-icon">❤️</div>
+                <p>Love isn't just about grand gestures—it's in the small moments of truly seeing you</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promises Section -->
+    <section id="promises" class="promises-section">
+        <h2>My Promises To You, Sofia</h2>
+        <p class="promises-intro">These aren't just words—they're commitments I'm making to you and to us:</p>
+
+        <!-- Edit promises below - you can add/remove items -->
+        <ul class="promises-list">
+            <li>I will put my phone away when you're sharing something important</li>
+            <li>I will ask questions instead of assuming I know how you feel</li>
+            <li>I will validate your feelings before trying to solve anything</li>
+            <li>I will make eye contact and be fully present in our conversations</li>
+            <li>I will remember that sometimes you need me to listen, not to fix</li>
+            <li>I will check in with you regularly about how I'm doing with this</li>
+            <li>I will be patient with myself as I learn, but never stop trying to be better for you</li>
+        </ul>
+    </section>
+
+    <!-- Memories Section -->
+    <section id="memories" class="memories-section">
+        <h2>What We Mean To Me</h2>
+        <div class="memory-grid">
+            <!-- Edit captions and replace placeholder divs with images below -->
+            <!-- To add your own images: replace the entire .memory-placeholder div with <img src="your-image.jpg" alt="description"> -->
+            <div class="memory-card">
+                <div class="memory-placeholder">Photo 1</div>
+                <div class="memory-caption">Our first date</div>
+            </div>
+            <div class="memory-card">
+                <div class="memory-placeholder">Photo 2</div>
+                <div class="memory-caption">That day in the park</div>
+            </div>
+            <div class="memory-card">
+                <div class="memory-placeholder">Photo 3</div>
+                <div class="memory-caption">Your beautiful smile</div>
+            </div>
+            <div class="memory-card">
+                <div class="memory-placeholder">Photo 4</div>
+                <div class="memory-caption">When we laughed until we cried</div>
+            </div>
+            <div class="memory-card">
+                <div class="memory-placeholder">Photo 5</div>
+                <div class="memory-caption">Sunset together</div>
+            </div>
+            <div class="memory-card">
+                <div class="memory-placeholder">Photo 6</div>
+                <div class="memory-caption">You & me, always</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Note Section -->
+    <section id="note" class="note-section">
+        <h2>A Note Just For You</h2>
+        <div class="note-content">
+            <!-- Edit personal note below -->
+            <p>Sofia,</p>
+
+            <p>I've been thinking a lot about the moment when you tried to tell me how you were feeling, and I didn't really listen. I saw the hurt in your eyes, and I hate that I put it there. You deserved so much better than someone who was half-present, half-distracted, and completely missing what mattered.</p>
+
+            <p>You weren't asking for much—just for me to hear you, to see you, to make you feel like what you were saying mattered. And I failed at something so simple yet so important. I'm sorry for making you feel alone when I was right there. I'm sorry for all the times I made you repeat yourself, or worse, made you feel like your feelings weren't worth my full attention.</p>
+
+            <p>I want to be the partner you deserve—someone who listens not just with their ears, but with their heart. Someone who makes you feel heard, valued, and loved in every conversation. I'm ready to do better, to be better, for you and for us.</p>
+
+            <p class="note-signature">— Alex</p>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-section">
+        <h2>I'm ready to listen whenever you're ready to talk.</h2>
+        <button class="final-button" onclick="openModal()">Talk to me?</button>
+    </section>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h3>I'm Here For You</h3>
+            <!-- Edit modal message below -->
+            <p>No pressure, no expectations. Just you, me, and your feelings—this time I'll truly listen. Whenever you're ready, I'm here.</p>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
